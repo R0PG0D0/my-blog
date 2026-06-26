@@ -9,6 +9,13 @@ export type PostCategory =
 
 export type CategoryFilter = "ALL" | PostCategory;
 
+export type CategoryMenuItem = {
+  value?: CategoryFilter;
+  label: string;
+  href?: string;
+  children?: CategoryMenuItem[];
+};
+
 export type BlogPost = {
   slug: string;
   date: string;
@@ -23,15 +30,72 @@ export type BlogPost = {
   content: string[];
 };
 
-export const categories: { value: CategoryFilter; label: string }[] = [
+export const categories: CategoryMenuItem[] = [
   { value: "ALL", label: "全部" },
-  { value: "PENTEST", label: "靶机渗透" },
-  { value: "PWN", label: "PWN" },
-  { value: "IOT", label: "IoT" },
-  { value: "SRC", label: "SRC" },
-  { value: "REVERSE", label: "逆向" },
-  { value: "SECURITY_TEST", label: "渗透测试" },
-  { value: "LATERAL", label: "内网横向" },
+  {
+    value: "PENTEST",
+    label: "靶机渗透",
+    children: [
+      { value: "PENTEST", label: "VulnHub" },
+      { value: "PENTEST", label: "HackTheBox" },
+      {
+        label: "复盘路线",
+        children: [
+          { value: "PENTEST", label: "信息收集" },
+          { value: "PENTEST", label: "权限提升" },
+        ],
+      },
+    ],
+  },
+  {
+    value: "PWN",
+    label: "PWN",
+    children: [
+      { value: "PWN", label: "栈溢出" },
+      { value: "PWN", label: "ROP" },
+      { value: "PWN", label: "堆利用" },
+    ],
+  },
+  {
+    value: "IOT",
+    label: "IoT",
+    children: [
+      { value: "IOT", label: "固件分析" },
+      { value: "IOT", label: "服务识别" },
+    ],
+  },
+  {
+    value: "SRC",
+    label: "SRC",
+    children: [
+      { value: "SRC", label: "漏洞报告" },
+      { value: "SRC", label: "复现记录" },
+    ],
+  },
+  {
+    value: "REVERSE",
+    label: "逆向",
+    children: [
+      { value: "REVERSE", label: "静态分析" },
+      { value: "REVERSE", label: "动态调试" },
+    ],
+  },
+  {
+    value: "SECURITY_TEST",
+    label: "渗透测试",
+    children: [
+      { value: "SECURITY_TEST", label: "Web 安全" },
+      { value: "SECURITY_TEST", label: "权限验证" },
+    ],
+  },
+  {
+    value: "LATERAL",
+    label: "内网横向",
+    children: [
+      { value: "LATERAL", label: "凭据收集" },
+      { value: "LATERAL", label: "横向移动" },
+    ],
+  },
 ];
 
 export const posts: BlogPost[] = [

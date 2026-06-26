@@ -31,7 +31,7 @@ export default function ProfileCard({ variant = "light" }: ProfileCardProps) {
 
         <div className="profile-socials" aria-label="社交链接">
           <a
-            href="https://github.com/ROPGOD"
+            href="https://github.com/R0PG0D0"
             target="_blank"
             rel="noreferrer"
             aria-label="GitHub"

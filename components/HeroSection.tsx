@@ -2,13 +2,19 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { categories, posts, type CategoryFilter } from "./blogContent";
+import {
+  categories,
+  posts,
+  type CategoryFilter,
+  type CategoryMenuItem,
+} from "./blogContent";
 import ContactModal from "./ContactModal";
 import ProfileCard from "./ProfileCard";
 
 export default function HeroSection() {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState<CategoryFilter>("ALL");
+  const [activeCategoryKey, setActiveCategoryKey] = useState("全部-0");
   const [isContactOpen, setIsContactOpen] = useState(false);
 
   const filteredPosts = useMemo(() => {
@@ -26,8 +32,9 @@ export default function HeroSection() {
     });
   }, [category, query]);
 
-  const handleCategorySelect = (value: CategoryFilter) => {
+  const handleCategorySelect = (value: CategoryFilter, activeKey: string) => {
     setCategory(value);
+    setActiveCategoryKey(activeKey);
     setQuery("");
 
     window.requestAnimationFrame(() => {
@@ -35,6 +42,51 @@ export default function HeroSection() {
         .getElementById("writing")
         ?.scrollIntoView({ behavior: "smooth", block: "start" });
     });
+  };
+
+  const renderCategoryItem = (
+    item: CategoryMenuItem,
+    path: string,
+    depth = 0,
+  ) => {
+    const hasChildren = Boolean(item.children?.length);
+    const isActive = activeCategoryKey === path;
+
+    return (
+      <div
+        className={`category-item ${hasChildren ? "has-submenu" : ""}`}
+        key={path}
+      >
+        {item.href ? (
+          <a className="category-trigger" href={item.href}>
+            {item.label}
+            {hasChildren && <span aria-hidden="true">›</span>}
+          </a>
+        ) : (
+          <button
+            type="button"
+            className={`category-trigger ${isActive ? "is-active" : ""}`}
+            onClick={() => item.value && handleCategorySelect(item.value, path)}
+            aria-pressed={isActive}
+          >
+            {item.label}
+            {hasChildren && <span aria-hidden="true">›</span>}
+          </button>
+        )}
+
+        {hasChildren && (
+          <div
+            className={`category-submenu ${
+              depth > 0 ? "category-submenu-nested" : ""
+            }`}
+          >
+            {item.children?.map((child, index) =>
+              renderCategoryItem(child, `${path}-${index}`, depth + 1),
+            )}
+          </div>
+        )}
+      </div>
+    );
   };
 
   return (
@@ -64,17 +116,9 @@ export default function HeroSection() {
 
         <div className="header-tools">
           <div className="category-filter" aria-label="文章分类">
-            {categories.map((item) => (
-              <button
-                key={item.value}
-                type="button"
-                className={category === item.value ? "is-active" : ""}
-                onClick={() => handleCategorySelect(item.value)}
-                aria-pressed={category === item.value}
-              >
-                {item.label}
-              </button>
-            ))}
+            {categories.map((item, index) =>
+              renderCategoryItem(item, `${item.label}-${index}`),
+            )}
           </div>
 
           <label className="search-field">
