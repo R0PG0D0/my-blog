@@ -324,14 +324,15 @@ a { color: inherit; }
 }
 
 .intro-message {
-  width: min(900px, 76vw);
+  width: 900px;
+  max-width: calc(100vw - 64px);
 }
 
 .intro-message h2 {
   max-width: 1100px;
   margin: 0;
   color: #fffdf7;
-  font-size: clamp(3.2rem, 6.2vw, 6.6rem);
+  font-size: 6rem;
   font-weight: 700;
   line-height: .84;
   letter-spacing: -.068em;
@@ -1557,4 +1558,14 @@ a { color: inherit; }
     animation-iteration-count: 1 !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* Artalk: hide only the optional website field. */
+.artalk-comments .atk-main-editor > .atk-header > .atk-link,
+.artalk-comments input[name="link"],
+.artalk-comments input[name="url"],
+.artalk-comments input[placeholder="网站"],
+.artalk-comments input[placeholder="网址"],
+.artalk-comments input[placeholder="Website" i] {
+  display: none !important;
 }
