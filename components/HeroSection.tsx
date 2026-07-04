@@ -1,30 +1,50 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { getAvailableArchiveMonths } from "./archiveUtils";
 import {
   categories,
-  posts,
   type CategoryFilter,
   type CategoryMenuItem,
 } from "./blogContent";
+import type { BlogPostSummary } from "@/lib/blog";
 import ContactModal from "./ContactModal";
 import ProfileCard from "./ProfileCard";
 
-export default function HeroSection() {
+type HeroSectionProps = {
+  posts: BlogPostSummary[];
+};
+
+export default function HeroSection({ posts }: HeroSectionProps) {
   const [query, setQuery] = useState("");
-  const [category, setCategory] = useState<CategoryFilter>("ALL");
+  const [category, setCategory] = useState<CategoryFilter>("all");
   const [activeCategoryKey, setActiveCategoryKey] = useState("全部-0");
   const [isContactOpen, setIsContactOpen] = useState(false);
+  const [archiveMonths, setArchiveMonths] = useState(() =>
+    getAvailableArchiveMonths(),
+  );
+
+  useEffect(() => {
+    const updateArchiveMonths = () => {
+      setArchiveMonths(getAvailableArchiveMonths());
+    };
+    const timer = window.setInterval(updateArchiveMonths, 60_000);
+
+    return () => window.clearInterval(timer);
+  }, []);
 
   const filteredPosts = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase();
 
     return posts.filter((post) => {
-      const matchesCategory = category === "ALL" || post.category === category;
+      const matchesCategory =
+        category === "all" ||
+        post.categoryPath === category ||
+        post.categoryPath.startsWith(`${category}/`);
       const matchesQuery =
         !normalizedQuery ||
-        `${post.title} ${post.excerpt} ${post.category} ${post.categoryLabel}`
+        `${post.title} ${post.excerpt} ${post.categoryPath} ${post.categoryLabel} ${post.subcategoryLabel}`
           .toLowerCase()
           .includes(normalizedQuery);
 
@@ -147,15 +167,17 @@ export default function HeroSection() {
         <section id="writing" className="writing-section">
           <div className="writing-layout">
             <aside className="writing-sidebar">
-              <ProfileCard />
+              <ProfileCard postCount={posts.length} />
 
-              <section className="archive-card" aria-label="文章归档">
+              <section id="archive" className="archive-card" aria-label="文章归档">
                 <h3>归档</h3>
-                <a href="/archive/2026/06">
-                  <i aria-hidden="true" />
-                  <span>六月 2026</span>
-                  <b aria-hidden="true">→</b>
-                </a>
+                {archiveMonths.map((archiveMonth) => (
+                  <Link href={archiveMonth.href} key={archiveMonth.href}>
+                    <i aria-hidden="true" />
+                    <span>{archiveMonth.label}</span>
+                    <b aria-hidden="true">→</b>
+                  </Link>
+                ))}
               </section>
 
               <section className="latest-card" aria-label="最新文章">
@@ -192,7 +214,6 @@ export default function HeroSection() {
                     <div className="post-meta">
                       <span>▣ {post.date}</span>
                       <span>✒ {post.wordCount}</span>
-                      <span>⌛ {post.readTime}</span>
                     </div>
                     <h3>{post.title}</h3>
                     <p>{post.excerpt}</p>

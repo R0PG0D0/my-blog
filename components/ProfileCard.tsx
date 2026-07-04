@@ -2,14 +2,17 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { posts } from "./blogContent";
 import ContactModal from "./ContactModal";
 
 type ProfileCardProps = {
   variant?: "light" | "dark";
+  postCount?: number;
 };
 
-export default function ProfileCard({ variant = "light" }: ProfileCardProps) {
+export default function ProfileCard({
+  variant = "light",
+  postCount = 0,
+}: ProfileCardProps) {
   const [isContactOpen, setIsContactOpen] = useState(false);
 
   return (
@@ -26,7 +29,7 @@ export default function ProfileCard({ variant = "light" }: ProfileCardProps) {
 
         <div className="profile-count" aria-label="文章数量">
           <span>文章</span>
-          <strong>{posts.length}</strong>
+          <strong>{postCount}</strong>
         </div>
 
         <div className="profile-socials" aria-label="社交链接">
@@ -54,7 +57,7 @@ export default function ProfileCard({ variant = "light" }: ProfileCardProps) {
 
         <div className="profile-links">
           <Link href="/">首页</Link>
-          <Link href="/archive/2026/06">归档</Link>
+          <Link href="/archive">归档</Link>
           <button type="button" onClick={() => setIsContactOpen(true)}>
             联系
           </button>

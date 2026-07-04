@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getPostBySlug, posts } from "@/components/blogContent";
+import { getAllPostSummaries, getPostBySlug } from "@/lib/blog";
 import ArtalkComments from "@/components/ArtalkComments";
+import MarkdownArticle from "@/components/MarkdownArticle";
 import ProfileCard from "@/components/ProfileCard";
 
 type PostPageProps = {
@@ -11,7 +12,7 @@ type PostPageProps = {
 };
 
 export function generateStaticParams() {
-  return posts.map((post) => ({
+  return getAllPostSummaries().map((post) => ({
     slug: post.slug,
   }));
 }
@@ -35,6 +36,7 @@ export async function generateMetadata({ params }: PostPageProps) {
 export default async function PostPage({ params }: PostPageProps) {
   const { slug } = await params;
   const post = getPostBySlug(slug);
+  const postCount = getAllPostSummaries().length;
 
   if (!post) {
     notFound();
@@ -42,14 +44,26 @@ export default async function PostPage({ params }: PostPageProps) {
 
   return (
     <main className="post-page">
-      <div className="post-page-background" aria-hidden="true">
-        <img src={post.image} alt="" />
-      </div>
+      <section
+        className="post-page-hero"
+        aria-labelledby="post-hero-title"
+      >
+        <img
+          className="post-hero-image"
+          src={post.heroImage}
+          alt=""
+          aria-hidden="true"
+        />
 
-      <header className="post-page-header">
-        <Link href="/#writing">← 返回文章列表</Link>
-        <span>ROPGOD JOURNAL</span>
-      </header>
+        <header className="post-page-header">
+          <Link href="/#writing">← 返回文章列表</Link>
+          <span>ROPGOD JOURNAL</span>
+        </header>
+
+        <div className="post-hero-content">
+          <h1 id="post-hero-title">{post.title}</h1>
+        </div>
+      </section>
 
       <div className="post-page-layout">
         <article className="post-detail-card">
@@ -63,27 +77,24 @@ export default async function PostPage({ params }: PostPageProps) {
           <div className="post-detail-meta">
             <span>{post.categoryLabel}</span>
             <span>{post.wordCount}</span>
-            <span>{post.readTime}</span>
           </div>
 
-          <h1>
+          <h2 className="post-content-title">
             <span aria-hidden="true">#</span>
             {post.title}
-          </h1>
+          </h2>
 
           <p className="post-detail-excerpt">{post.excerpt}</p>
 
           <div className="post-detail-body">
-            {post.content.map((paragraph) => (
-              <p key={paragraph}>{paragraph}</p>
-            ))}
+            <MarkdownArticle content={post.content} />
           </div>
 
           <ArtalkComments pageKey={`/posts/${post.slug}`} pageTitle={post.title} />
         </article>
 
         <aside className="post-detail-sidebar">
-          <ProfileCard variant="dark" />
+          <ProfileCard variant="dark" postCount={postCount} />
         </aside>
       </div>
     </main>
