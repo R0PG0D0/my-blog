@@ -16,6 +16,12 @@ type HeroSectionProps = {
   posts: BlogPostSummary[];
 };
 
+// 文章列表始终按当前展示顺序交替使用这两张封面，避免连续出现同一张图。
+const LIST_COVER_IMAGES = [
+  "/anime-melancholy.png",
+  "/anime-girl-wallpaper.png",
+] as const;
+
 export default function HeroSection({ posts }: HeroSectionProps) {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState<CategoryFilter>("all");
@@ -208,7 +214,7 @@ export default function HeroSection({ posts }: HeroSectionProps) {
                   key={post.title}
                 >
                   <div className="post-image">
-                    <img src={post.image} alt="" />
+                    <img src={LIST_COVER_IMAGES[index % LIST_COVER_IMAGES.length]} alt="" />
                   </div>
                   <div className="post-body">
                     <div className="post-meta">

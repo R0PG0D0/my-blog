@@ -2,8 +2,10 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getAllPostSummaries, getPostBySlug } from "@/lib/blog";
 import ArtalkComments from "@/components/ArtalkComments";
+import ArticleOutline from "@/components/ArticleOutline";
 import MarkdownArticle from "@/components/MarkdownArticle";
 import ProfileCard from "@/components/ProfileCard";
+import { getMarkdownHeadings } from "@/lib/markdownHeadings";
 
 type PostPageProps = {
   params: Promise<{
@@ -42,6 +44,8 @@ export default async function PostPage({ params }: PostPageProps) {
     notFound();
   }
 
+  const headings = getMarkdownHeadings(post.content);
+
   return (
     <main className="post-page">
       <section
@@ -66,7 +70,11 @@ export default async function PostPage({ params }: PostPageProps) {
       </section>
 
       <div className="post-page-layout">
-        <article className="post-detail-card">
+        <aside className="post-profile-sidebar">
+          <ProfileCard variant="dark" postCount={postCount} />
+        </aside>
+
+        <article className="post-detail-card" data-post-slug={post.slug}>
           <div className="post-date-badge">
             <span aria-hidden="true">▣</span>
             <time>{post.archiveDate ?? post.date}</time>
@@ -93,8 +101,8 @@ export default async function PostPage({ params }: PostPageProps) {
           <ArtalkComments pageKey={`/posts/${post.slug}`} pageTitle={post.title} />
         </article>
 
-        <aside className="post-detail-sidebar">
-          <ProfileCard variant="dark" postCount={postCount} />
+        <aside className="post-outline-sidebar">
+          <ArticleOutline headings={headings} />
         </aside>
       </div>
     </main>

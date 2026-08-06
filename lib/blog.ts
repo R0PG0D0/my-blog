@@ -131,7 +131,7 @@ function readPost(filePath: string): BlogPost | null {
     subcategoryLabel: subcategoryConfig.title,
     wordCount: String(data.wordCount ?? `${countWords(content)} 字`),
     image: String(data.image ?? "/anime-melancholy.png"),
-    heroImage: String(data.heroImage ?? "/微信图片_20260702094637_1119_2.png"),
+    heroImage: String(data.heroImage ?? "/article-hero-bg.png"),
     content: content.trim(),
     sourcePath: path.relative(process.cwd(), filePath).replaceAll("\\", "/"),
   };

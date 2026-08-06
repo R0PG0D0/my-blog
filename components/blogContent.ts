@@ -32,35 +32,16 @@ export const blogCategories: BlogCategory[] = [
     ],
   },
   {
-    title: "主机渗透",
+    title: "主机渗透思路",
     slug: "host-pentesting",
     path: `${CONTENT_ROOT}/host-pentesting`,
-    description: "Linux、Windows 主机安全与内网横向。",
+    description: "Linux、Windows 主机安全。",
     children: [
       { title: "Linux", slug: "linux", path: `${CONTENT_ROOT}/host-pentesting/linux` },
       {
         title: "Windows",
         slug: "windows",
         path: `${CONTENT_ROOT}/host-pentesting/windows`,
-        children: [
-          {
-            title: "内网横向",
-            slug: "lateral-movement",
-            path: `${CONTENT_ROOT}/host-pentesting/windows/lateral-movement`,
-            children: [
-              {
-                title: "凭据收集",
-                slug: "credential-collection",
-                path: `${CONTENT_ROOT}/host-pentesting/windows/lateral-movement/credential-collection`,
-              },
-              {
-                title: "域渗透",
-                slug: "domain-pentesting",
-                path: `${CONTENT_ROOT}/host-pentesting/windows/lateral-movement/domain-pentesting`,
-              },
-            ],
-          },
-        ],
       },
     ],
   },
@@ -98,7 +79,7 @@ export const blogCategories: BlogCategory[] = [
     description: "SRC 漏洞挖掘、验证与报告记录。",
     children: [
       { title: "EDU", slug: "edu", path: `${CONTENT_ROOT}/src/edu` },
-      { title: "补天", slug: "butian", path: `${CONTENT_ROOT}/src/butian` },
+      { title: "Bug Bounty", slug: "butian", path: `${CONTENT_ROOT}/src/butian` },
     ],
   },
   {
@@ -113,6 +94,47 @@ export const blogCategories: BlogCategory[] = [
         title: "固件分析",
         slug: "firmware-analysis",
         path: `${CONTENT_ROOT}/iot-security/firmware-analysis`,
+      },
+    ],
+  },
+  {
+    title: "practice",
+    slug: "practice",
+    path: `${CONTENT_ROOT}/practice`,
+    description: "CTF 平台题目练习与解题记录。",
+    children: [
+      { title: "ctfshow", slug: "ctfshow", path: `${CONTENT_ROOT}/practice/ctfshow` },
+    ],
+  },
+  {
+    title: "Competition Summary",
+    slug: "competition-summary",
+    path: `${CONTENT_ROOT}/competition-summary`,
+    description: "网络安全赛事复盘、题解与经验总结。",
+    children: [
+      { title: "CISCN", slug: "ciscn", path: `${CONTENT_ROOT}/competition-summary/ciscn` },
+      {
+        title: "AWD / AWDP",
+        slug: "awd-awdp",
+        path: `${CONTENT_ROOT}/competition-summary/awd-awdp`,
+      },
+      {
+        title: "强网杯",
+        slug: "qiangwang-cup",
+        path: `${CONTENT_ROOT}/competition-summary/qiangwang-cup`,
+      },
+    ],
+  },
+  {
+    title: "Tools",
+    slug: "tools",
+    path: `${CONTENT_ROOT}/tools`,
+    description: "常用工具、插件与使用记录。",
+    children: [
+      {
+        title: "Google Plugin",
+        slug: "google-plugin",
+        path: `${CONTENT_ROOT}/tools/google-plugin`,
       },
     ],
   },
