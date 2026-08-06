@@ -8,7 +8,7 @@ type ArtalkCommentsProps = {
 };
 
 const artalkServer = process.env.NEXT_PUBLIC_ARTALK_SERVER;
-const artalkSite = process.env.NEXT_PUBLIC_ARTALK_SITE || "ropgod";
+const artalkSite = process.env.NEXT_PUBLIC_ARTALK_SITE || "ropgod.site";
 
 export default function ArtalkComments({ pageKey, pageTitle }: ArtalkCommentsProps) {
   const containerRef = useRef<HTMLDivElement | null>(null);
