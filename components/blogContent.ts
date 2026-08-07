@@ -20,7 +20,7 @@ const CONTENT_ROOT = "content/blog";
 
 export const blogCategories: BlogCategory[] = [
   {
-    title: "靶机渗透",
+    title: "Box Pentesting",
     slug: "pentest",
     path: `${CONTENT_ROOT}/pentest`,
     description: "靶场、CTF 与完整渗透复盘记录。",
@@ -29,20 +29,6 @@ export const blogCategories: BlogCategory[] = [
       { title: "Hack The Box", slug: "hack-the-box", path: `${CONTENT_ROOT}/pentest/hack-the-box` },
       { title: "春秋云镜", slug: "chunqiu-yunjing", path: `${CONTENT_ROOT}/pentest/chunqiu-yunjing` },
       { title: "VulnHub", slug: "vulnhub", path: `${CONTENT_ROOT}/pentest/vulnhub` },
-    ],
-  },
-  {
-    title: "主机渗透思路",
-    slug: "host-pentesting",
-    path: `${CONTENT_ROOT}/host-pentesting`,
-    description: "Linux、Windows 主机安全。",
-    children: [
-      { title: "Linux", slug: "linux", path: `${CONTENT_ROOT}/host-pentesting/linux` },
-      {
-        title: "Windows",
-        slug: "windows",
-        path: `${CONTENT_ROOT}/host-pentesting/windows`,
-      },
     ],
   },
   {
@@ -60,7 +46,7 @@ export const blogCategories: BlogCategory[] = [
     ],
   },
   {
-    title: "逆向",
+    title: "RE",
     slug: "reverse-engineering",
     path: `${CONTENT_ROOT}/reverse-engineering`,
     description: "程序分析、动态调试与反逆向技术。",
@@ -154,7 +140,7 @@ function toMenuItem(category: BlogCategory, parents: string[] = []): CategoryMen
 }
 
 export const categories: CategoryMenuItem[] = [
-  { value: "all", label: "全部" },
+  { value: "all", label: "ALL" },
   ...blogCategories.map((category) => toMenuItem(category)),
 ];
 

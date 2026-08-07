@@ -25,7 +25,7 @@ const LIST_COVER_IMAGES = [
 export default function HeroSection({ posts }: HeroSectionProps) {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState<CategoryFilter>("all");
-  const [activeCategoryKey, setActiveCategoryKey] = useState("全部-0");
+  const [activeCategoryKey, setActiveCategoryKey] = useState("ALL-0");
   const [isContactOpen, setIsContactOpen] = useState(false);
   const [archiveMonths, setArchiveMonths] = useState(() =>
     getAvailableArchiveMonths(),
