@@ -26,6 +26,7 @@ export default function HeroSection({ posts }: HeroSectionProps) {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState<CategoryFilter>("all");
   const [activeCategoryKey, setActiveCategoryKey] = useState("ALL-0");
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isContactOpen, setIsContactOpen] = useState(false);
   const [archiveMonths, setArchiveMonths] = useState(() =>
     getAvailableArchiveMonths(),
@@ -61,6 +62,7 @@ export default function HeroSection({ posts }: HeroSectionProps) {
   const handleCategorySelect = (value: CategoryFilter, activeKey: string) => {
     setCategory(value);
     setActiveCategoryKey(activeKey);
+    setIsMobileMenuOpen(false);
     setQuery("");
 
     window.requestAnimationFrame(() => {
@@ -69,6 +71,10 @@ export default function HeroSection({ posts }: HeroSectionProps) {
         ?.scrollIntoView({ behavior: "smooth", block: "start" });
     });
   };
+
+  const mobileMenuCategories = categories.filter((item) =>
+    ["ALL", "PWN", "RE", "SRC", "IOT", "Tools"].includes(item.label),
+  );
 
   const renderCategoryItem = (
     item: CategoryMenuItem,
@@ -118,8 +124,14 @@ export default function HeroSection({ posts }: HeroSectionProps) {
   return (
     <section className="blog-page">
       <div className="blog-background" aria-hidden="true">
-        <video autoPlay muted loop playsInline preload="auto">
+        <video className="desktop-background-video" autoPlay muted loop playsInline preload="auto">
           <source src="/Kuroha.mp4" type="video/mp4" />
+        </video>
+        <video className="mobile-background-video" autoPlay muted loop playsInline preload="auto">
+          <source
+            src="/%E3%80%90%E5%93%B2%E9%A3%8E%E5%A3%81%E7%BA%B8%E3%80%91originos6-%E4%BA%8C%E6%AC%A1%E5%85%83.mp4"
+            type="video/mp4"
+          />
         </video>
         <div className="blog-grade" />
         <div className="blog-vignette" />
@@ -128,9 +140,12 @@ export default function HeroSection({ posts }: HeroSectionProps) {
 
       <header className="blog-header">
         <div className="header-main">
-          <a href="#home" className="blog-name">
-            ROPGOD<span>—</span>JOURNAL
-          </a>
+          <div className="blog-identity">
+            <a href="#home" className="blog-name">
+              ROPGOD<span>—</span>JOURNAL
+            </a>
+            <p className="mobile-tagline">Break systems. Build knowledge.</p>
+          </div>
           <nav aria-label="主导航">
             <a href="#home">首页</a>
             <a href="#writing">文章</a>
@@ -138,6 +153,17 @@ export default function HeroSection({ posts }: HeroSectionProps) {
               联系
             </button>
           </nav>
+          <button
+            type="button"
+            className={`mobile-menu-toggle ${isMobileMenuOpen ? "is-open" : ""}`}
+            aria-expanded={isMobileMenuOpen}
+            aria-controls="mobile-blog-menu"
+            aria-label={isMobileMenuOpen ? "关闭菜单" : "打开菜单"}
+            onClick={() => setIsMobileMenuOpen((isOpen) => !isOpen)}
+          >
+            <span />
+            <span />
+          </button>
         </div>
 
         <div className="header-tools">
@@ -154,6 +180,43 @@ export default function HeroSection({ posts }: HeroSectionProps) {
               value={query}
               onChange={(event) => setQuery(event.target.value)}
               placeholder="搜索文章"
+            />
+          </label>
+        </div>
+
+        <div
+          id="mobile-blog-menu"
+          className={`mobile-blog-menu ${isMobileMenuOpen ? "is-open" : ""}`}
+        >
+          <div className="mobile-category-list" aria-label="移动端文章分类">
+            {mobileMenuCategories.map((item) => {
+              const isActive = activeCategoryKey === `${item.label}-${categories.indexOf(item)}`;
+
+              return (
+                <button
+                  type="button"
+                  className={isActive ? "is-active" : ""}
+                  key={item.value}
+                  onClick={() =>
+                    handleCategorySelect(
+                      item.value,
+                      `${item.label}-${categories.indexOf(item)}`,
+                    )
+                  }
+                >
+                  {item.label}
+                </button>
+              );
+            })}
+          </div>
+
+          <label className="mobile-search-field">
+            <span className="sr-only">搜索文章</span>
+            <input
+              type="search"
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              placeholder="搜索"
             />
           </label>
         </div>
