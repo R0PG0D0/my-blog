@@ -8,11 +8,18 @@ import {
 } from "@/components/archiveUtils";
 import { getAllPostSummaries } from "@/lib/blog";
 
-export const dynamic = "force-dynamic";
+export const dynamicParams = false;
 
 type ArchivePageProps = {
   params: Promise<{ year: string; month: string }>;
 };
+
+export function generateStaticParams() {
+  return getAvailableArchiveMonths().map(({ href }) => {
+    const [, , year, month] = href.split("/");
+    return { year, month };
+  });
+}
 
 async function getArchive(params: ArchivePageProps["params"]) {
   const { year: yearValue, month: monthValue } = await params;

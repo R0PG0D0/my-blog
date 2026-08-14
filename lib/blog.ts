@@ -130,8 +130,8 @@ function readPost(filePath: string): BlogPost | null {
     categoryLabel: categoryConfig.title,
     subcategoryLabel: subcategoryConfig.title,
     wordCount: String(data.wordCount ?? `${countWords(content)} 字`),
-    image: String(data.image ?? "/anime-melancholy.png"),
-    heroImage: String(data.heroImage ?? "/article-hero-bg.png"),
+    image: String(data.image ?? "/anime-melancholy-v2.webp"),
+    heroImage: String(data.heroImage ?? "/article-hero-bg-v2.webp"),
     content: content.trim(),
     sourcePath: path.relative(process.cwd(), filePath).replaceAll("\\", "/"),
   };

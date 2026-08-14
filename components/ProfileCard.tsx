@@ -22,7 +22,7 @@ export default function ProfileCard({
         aria-label="站点信息"
       >
         <div className="profile-avatar">
-          <img src="/avatar-boy.png" alt="ROPGOD 头像" />
+          <img src="/avatar-boy-v2.webp" alt="ROPGOD 头像" />
         </div>
 
         <h3>ROPGOD</h3>

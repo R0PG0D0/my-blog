@@ -5,8 +5,8 @@ date: "2026-07-13"
 excerpt: "整理 AWD / AWDP 比赛中 Pwn 漏洞修补、通用 Patch 技巧、工具使用与验证流程。"
 category: "competition-summary"
 subcategory: "awd-awdp"
-image: "/anime-melancholy.png"
-heroImage: "/article-hero-bg.png"
+image: "/anime-melancholy-v2.webp"
+heroImage: "/article-hero-bg-v2.webp"
 ---
 
 # 1.AWDP

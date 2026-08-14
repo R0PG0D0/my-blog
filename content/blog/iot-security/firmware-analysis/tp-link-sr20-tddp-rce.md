@@ -5,8 +5,8 @@ date: "2026-07-13"
 excerpt: "记录 TP-Link SR20 TDDP v1 协议远程命令执行漏洞的固件提取、逆向分析、过滤绕过、POC/EXP 编写及 QEMU 用户态模拟复现过程。"
 category: "iot-security"
 subcategory: "firmware-analysis"
-image: "/anime-melancholy.png"
-heroImage: "/article-hero-bg.png"
+image: "/anime-melancholy-v2.webp"
+heroImage: "/article-hero-bg-v2.webp"
 ---
 # TP-Link SR20 TDDP v1 远程命令执行漏洞复现报告
 
@@ -921,5 +921,4 @@ $() 命令替换可稳定触发命令注入
     ↓
 实现远程命令执行
 ```
-
 

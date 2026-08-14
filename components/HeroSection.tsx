@@ -18,8 +18,8 @@ type HeroSectionProps = {
 
 // 文章列表始终按当前展示顺序交替使用这两张封面，避免连续出现同一张图。
 const LIST_COVER_IMAGES = [
-  "/anime-melancholy.png",
-  "/anime-girl-wallpaper.png",
+  "/anime-melancholy-v2.webp",
+  "/anime-girl-wallpaper-v2.webp",
 ] as const;
 
 export default function HeroSection({ posts }: HeroSectionProps) {
@@ -28,9 +28,22 @@ export default function HeroSection({ posts }: HeroSectionProps) {
   const [activeCategoryKey, setActiveCategoryKey] = useState("ALL-0");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isContactOpen, setIsContactOpen] = useState(false);
+  const [backgroundVideoSrc, setBackgroundVideoSrc] = useState("");
   const [archiveMonths, setArchiveMonths] = useState(() =>
     getAvailableArchiveMonths(),
   );
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      setBackgroundVideoSrc(
+        window.matchMedia("(max-width: 760px)").matches
+          ? "/background-mobile-v2.mp4"
+          : "/background-desktop-v2.mp4",
+      );
+    }, 350);
+
+    return () => window.clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     const updateArchiveMonths = () => {
@@ -124,14 +137,8 @@ export default function HeroSection({ posts }: HeroSectionProps) {
   return (
     <section className="blog-page">
       <div className="blog-background" aria-hidden="true">
-        <video className="desktop-background-video" autoPlay muted loop playsInline preload="auto">
-          <source src="/Kuroha.mp4" type="video/mp4" />
-        </video>
-        <video className="mobile-background-video" autoPlay muted loop playsInline preload="auto">
-          <source
-            src="/%E3%80%90%E5%93%B2%E9%A3%8E%E5%A3%81%E7%BA%B8%E3%80%91originos6-%E4%BA%8C%E6%AC%A1%E5%85%83.mp4"
-            type="video/mp4"
-          />
+        <video className="background-video" autoPlay muted loop playsInline preload="metadata">
+          {backgroundVideoSrc && <source src={backgroundVideoSrc} type="video/mp4" />}
         </video>
         <div className="blog-grade" />
         <div className="blog-vignette" />

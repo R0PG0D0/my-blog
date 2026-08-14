@@ -12,10 +12,37 @@ const artalkSite = process.env.NEXT_PUBLIC_ARTALK_SITE || "ropgod.site";
 
 export default function ArtalkComments({ pageKey, pageTitle }: ArtalkCommentsProps) {
   const containerRef = useRef<HTMLDivElement | null>(null);
+  const [shouldLoad, setShouldLoad] = useState(false);
   const [loadError, setLoadError] = useState("");
 
   useEffect(() => {
-    if (!containerRef.current || !artalkServer) {
+    const container = containerRef.current;
+
+    if (!container || !artalkServer) {
+      return;
+    }
+
+    if (!("IntersectionObserver" in window)) {
+      setShouldLoad(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShouldLoad(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "600px 0px" },
+    );
+
+    observer.observe(container);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!shouldLoad || !containerRef.current || !artalkServer) {
       return;
     }
 
@@ -56,7 +83,7 @@ export default function ArtalkComments({ pageKey, pageTitle }: ArtalkCommentsPro
       isMounted = false;
       artalk?.destroy();
     };
-  }, [pageKey, pageTitle]);
+  }, [pageKey, pageTitle, shouldLoad]);
 
   return (
     <section className="comments-card" aria-label="文章评论">
