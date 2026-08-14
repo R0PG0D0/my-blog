@@ -85,9 +85,7 @@ export default function HeroSection({ posts }: HeroSectionProps) {
     });
   };
 
-  const mobileMenuCategories = categories.filter((item) =>
-    ["ALL", "PWN", "RE", "SRC", "IOT", "Tools"].includes(item.label),
-  );
+  const mobileMenuCategories = categories;
 
   const renderCategoryItem = (
     item: CategoryMenuItem,
