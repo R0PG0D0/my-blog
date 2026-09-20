@@ -7,29 +7,12 @@
 ```bash
 git clone https://github.com/R0PG0D0/my-blog.git /var/www/ropgod-site
 mkdir -p /opt/ropgod-blog/{artalk-data,releases,npm-cache}
+cp /var/www/ropgod-site/deploy/Caddyfile /opt/ropgod-api/Caddyfile
 cd /var/www/ropgod-site
 bash deploy/deploy-server.sh
 ```
 
-Caddy 需要包含以下站点：
-
-```caddyfile
-http://ropgod.site, http://www.ropgod.site, http://comment.ropgod.site {
-    redir https://{host}{uri} permanent
-}
-
-https://ropgod.site {
-    redir https://www.ropgod.site{uri} permanent
-}
-
-https://www.ropgod.site {
-    reverse_proxy blog:3000
-}
-
-https://comment.ropgod.site {
-    reverse_proxy artalk:23366
-}
-```
+完整 Caddy 配置保存在 `deploy/Caddyfile`，同时包含现有 `api.ropgod.site` 路由。
 
 ## 日常发布
 

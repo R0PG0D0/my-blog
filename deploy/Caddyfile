@@ -1,0 +1,33 @@
+{
+    email admin@ropgod.site
+}
+
+http://ropgod.site, http://www.ropgod.site, http://api.ropgod.site, http://comment.ropgod.site {
+    redir https://{host}{uri} permanent
+}
+
+https://ropgod.site {
+    redir https://www.ropgod.site{uri} permanent
+}
+
+https://www.ropgod.site {
+    reverse_proxy blog:3000
+}
+
+https://api.ropgod.site {
+    request_body {
+        max_size 256MB
+    }
+
+    reverse_proxy sub2api:8080 {
+        flush_interval -1
+        transport http {
+            read_timeout 1h
+            write_timeout 1h
+        }
+    }
+}
+
+https://comment.ropgod.site {
+    reverse_proxy artalk:23366
+}
